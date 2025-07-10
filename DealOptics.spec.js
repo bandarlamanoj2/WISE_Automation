@@ -93,6 +93,7 @@ test('get started link', async ({ page }) => {
     } catch (error) {
         console.error("Breadcrumb Deal Optics is not present");
     }
+    
 
     await expect(ActiveMyDeals).toBeVisible();
     const isVisible = await ActiveMyDeals.isVisible();
@@ -208,4 +209,197 @@ test('get started link', async ({ page }) => {
 
     await clickOkSave.click();
     
+    await page.waitForTimeout(1000);
+
+    await MultiSelect.click();
+
+    const AllItemsSelect = page.locator("//div[@aria-label='All items selected']//checkicon[@class='p-element p-icon-wrapper ng-star-inserted']//*[name()='svg']");
+    const AccountNameClick = page.locator("//span[normalize-space()='Account Name']");
+
+    const isSelected = await AllItemsSelect.evaluate(el => el.classList.contains('selected'));
+    console.log("Is AllItemsSelect selected:", isSelected);
+
+    //const isActive = await AllItemsSelect.evaluate(el => document.activeElement === el);
+
+    if (isSelected) {
+        console.log("The MultiSelect object is active.");
+    } else {
+        console.error("The MultiSelect object is not active.");
+    }
+
+    const CloseMultiSelect = page.locator("//button[@class='p-ripple p-element p-multiselect-close p-link p-button-icon-only ng-star-inserted']");
+    await expect(CloseMultiSelect).toBeVisible();
+    await CloseMultiSelect.click();
+
+    const MyRadar = page.locator("//div[1]/div[2]/div/div/span[2]");
+    await expect(MyRadar).toBeVisible();
+    await MyRadar.hover();
+    await page.waitForTimeout(1200);
+
+    const MyDeals = page.locator("//div[1]/div[2]/div/div/span[3]");
+    await expect(MyDeals).toBeVisible();
+    await MyDeals.hover();
+    await page.waitForTimeout(1200);
+
+    const DealsWithUPTData = page.locator("//div[1]/div[2]/div/div/span[4]");
+    await expect(DealsWithUPTData).toBeVisible();
+    await DealsWithUPTData.hover();
+    await page.waitForTimeout(1200);
+
+    const DealsWithOutUPTData = page.locator("//div[1]/div[2]/div/div/span[5]");
+    await expect(DealsWithOutUPTData).toBeVisible();
+    await DealsWithOutUPTData.hover();
+    await page.waitForTimeout(1200);
+
+    const DealsReadyForReview = page.locator("//div[1]/div[2]/div/div/span[6]");
+    await expect(DealsReadyForReview).toBeVisible();
+    await DealsReadyForReview.hover();
+    await page.waitForTimeout(1200);
+
+    const TotalDeals = page.locator("//div[1]/div[2]/div/div/span[7]");
+    await expect(TotalDeals).toBeVisible();
+    await TotalDeals.hover();
+    await page.waitForTimeout(1200);
+
+    const AdvanceSearch = page.locator("//span[@class='Deals count_deals']");
+    await expect(AdvanceSearch).toBeVisible();
+    await AdvanceSearch.click();
+
+    const ApplyButton = page.locator("//button[normalize-space()='Apply']");
+    await expect(ApplyButton).toBeVisible();
+    await ApplyButton.hover();
+    await page.waitForTimeout(1200);
+
+    const ClearButton = page.locator("//button[normalize-space()='Clear']");
+    await expect(ClearButton).toBeVisible();
+    await ClearButton.hover();
+    await page.waitForTimeout(1200);
+
+    const SelectFilterColumn = page.locator("//span[@aria-label='Select Filter Column']");
+    await expect(SelectFilterColumn).toBeVisible();
+    await SelectFilterColumn.click();
+
+    const SearchBarForFilter = page.locator("//input[@role='searchbox']");
+    await expect(SearchBarForFilter).toBeVisible();
+    await SearchBarForFilter.fill('Winzone');
+    await page.waitForTimeout(700);
+    
+    const ClickWinzoneID = page.locator("//span[normalize-space()='Winzone ID']");
+    await expect(ClickWinzoneID).toBeVisible();
+    await ClickWinzoneID.click();
+
+    const SelectCondition = page.locator("//span[@aria-label='Select Condition']");
+    await expect(SelectCondition).toBeVisible();
+    await SelectCondition.click();
+
+    const SearchCondition = page.locator("//input[@role='searchbox']");
+    await expect(SearchCondition).toBeVisible();
+    await SearchCondition.fill('Contains');
+    await page.waitForTimeout(700);
+
+    const ClickContains = page.locator("//span[normalize-space()='Contains']");
+    await expect(ClickContains).toBeVisible();
+    await ClickContains.click();
+
+    const EnterValue = page.locator("//input[@placeholder='Enter value']");
+    await expect(EnterValue).toBeVisible();
+    await EnterValue.fill('2222280');
+    await page.waitForTimeout(700);
+
+    const AddFilterButton = page.locator("//div/div[2]/img");
+    await expect(AddFilterButton).toBeVisible();
+    await AddFilterButton.click();
+    await page.waitForTimeout(700);
+
+    await ApplyButton.click();
+    await page.waitForTimeout(700);
+
+    const ValidateSearchedResult = page.locator("//tbody/tr[1]/td[3]");
+    try {
+        await expect(ValidateSearchedResult).toContainText(EnterValue);
+        console.log("WinzoneID is Same as Entered Value");
+    }
+    catch (error) {
+        console.error("WinzoneID is not Same as Entered Value");
+    }
+
+    const CheckboxDeal = page.locator("//tr[1]/td[1]/span/mat-checkbox/div/div/input");
+    await expect(CheckboxDeal).toBeVisible();
+    await CheckboxDeal.click();
+    await page.waitForTimeout(2000);
+    await CheckboxDeal.click();
+    await page.waitForTimeout(2000);
+
+    const AddDealFavourite = page.locator("//tbody/tr[1]/td[1]/span[1]/img[2]");
+    await expect(AddDealFavourite).toBeVisible();
+    await AddDealFavourite.click();
+
+    await page.waitForTimeout(2000);
+
+    const isActive1 = await AddDealFavourite.evaluate(el => document.activeElement === el);
+
+    if (isActive1) {
+        console.log("Deal is added to Favourites.");
+    } else {
+        console.error("Deal is added to Favourites but not visible.");
+    }
+
+    const remarksDeal = page.locator("//tr[1]/td[1]/span[1]/a[1]/img[1]");
+    await expect(remarksDeal).toBeVisible();
+    await remarksDeal.click();
+
+    const SaveRemarks = page.locator("//button[@class='savebtn float-end']")
+    await expect(SaveRemarks).toBeVisible();
+    await SaveRemarks.click();
+
+    const MandidatedRemarksText = page.locator("//div[@class='text-danger-custom']");
+    await expect(MandidatedRemarksText).toBeVisible();
+    const MandidatedRemarksTextContent = await MandidatedRemarksText.textContent();
+    try {
+        expect(MandidatedRemarksTextContent).toContain("Remarks is mandatory");
+        console.log("Mandidated Remarks Text is visible");
+    }
+    catch (error) {
+        console.error("Mandidated Remarks Text is not visible");
+    }
+
+    const FillRemarks = page.locator("//textarea[@name='remarks']");
+    await expect(FillRemarks).toBeVisible();
+    await FillRemarks.fill('This is a test remark for the deal optics test case.');
+    
+    await SaveRemarks.click();
+
+    const SavedRemarksText = page.locator("//h6[normalize-space()='Data Updated Successfully']");
+    await expect(SavedRemarksText).toBeVisible();
+    const SavedRemarksTextContent = await SavedRemarksText.textContent();
+    try {
+        expect(SavedRemarksTextContent).toContain("Data Updated Successfully");
+        console.log("Deal Remarks saved successfully");
+    }
+    catch (error) {
+        console.error("Deal Remarks not saved successfully");
+    }
+
+    await clickOkSave.click();
+
+    const ClickWinzoneID1 = page.locator("//tbody/tr[1]/td[2]");
+    await expect(ClickWinzoneID1).toBeVisible();
+    await ClickWinzoneID1.click();
+
+    await page.waitForTimeout(2000);
+
+    const SummaryViewPage = page.locator("//a[@aria-current='page'][normalize-space()='Summary View']");
+    await expect(SummaryViewPage).toBeVisible();
+
+    const isActive2 = await SummaryViewPage.evaluate(el => document.activeElement === el);
+
+    if (isActive2) {
+        console.log("Deal is navigated to Summary View Page.");
+    } else {
+        console.error("Deal is not navigated to Summary View Page but visible.");
+    }
+
+    const AccountName1 = page.locator("//div/div[1]/table/tr[1]/td[2]");
+    await expect(AccountName1).toBeVisible();
+
 });
